@@ -27,7 +27,7 @@ import org.bouncycastle.tsp.TimeStampResponse;
 public class TimeStamperBuilder
 {
     private URL tsaUrl;
-    private Proxy proxy;
+    private Proxy proxy = Proxy.NO_PROXY;
     private byte[] data;
     private String requestMethod;
     private String digestAlgorithm;
