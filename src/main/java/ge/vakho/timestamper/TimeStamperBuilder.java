@@ -14,7 +14,7 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.bouncycastle.tsp.TSPAlgorithms;
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.tsp.TimeStampRequest;
 import org.bouncycastle.tsp.TimeStampRequestGenerator;
 import org.bouncycastle.tsp.TimeStampResponse;
@@ -31,6 +31,7 @@ public class TimeStamperBuilder
     private byte[] data;
     private String requestMethod;
     private String digestAlgorithm;
+    private ASN1ObjectIdentifier digestAlgAsn1;
 
     /**
      * Set TSA's URL.
@@ -63,6 +64,14 @@ public class TimeStamperBuilder
     }
 
     /**
+     * Sets proxy (optional).
+     */
+    public TimeStamperBuilder setProxy(String address, int port)
+    {
+        return setProxy(address, port, null, null);
+    }
+
+    /**
      * Sets data that will be timestamped.
      */
     public TimeStamperBuilder setData(byte[] data)
@@ -70,13 +79,16 @@ public class TimeStamperBuilder
         this.data = data;
         return this;
     }
-    
+
     /**
-     * Sets message digest algorithm (SHA-1, SHA-256 and etc).
+     * Sets message digest algorithm with its ASN1ObjectIdentifier (OID).
+     * 
+     * @param algorithmOid
      */
-    public TimeStamperBuilder setDigestAlgorithm(String algorithm)
+    public TimeStamperBuilder setDigestAlgorithm(String algorithm, ASN1ObjectIdentifier digestAlgAsn1)
     {
         this.digestAlgorithm = algorithm;
+        this.digestAlgAsn1 = digestAlgAsn1;
         return this;
     }
 
@@ -91,7 +103,8 @@ public class TimeStamperBuilder
 
     /**
      * Builds and returns new instance of TimeStamper object.
-     * @throws NoSuchAlgorithmException 
+     * 
+     * @throws NoSuchAlgorithmException
      */
     public TimeStamper build() throws NoSuchAlgorithmException
     {
@@ -99,7 +112,7 @@ public class TimeStamperBuilder
         stamper.setTsaUrl(tsaUrl);
         stamper.setProxy(proxy);
         stamper.setRequestMethod(requestMethod);
-        stamper.setMessageDigest(digestAlgorithm);
+        stamper.setMessageDigest(digestAlgorithm, digestAlgAsn1);
         stamper.setData(data);
         return stamper;
     }
@@ -116,6 +129,7 @@ public class TimeStamperBuilder
         private byte[] data;
         private String requestMethod;
         private MessageDigest messageDigest;
+        private ASN1ObjectIdentifier digestAlgAsn1;
 
         @Override
         public String getRequestMethod()
@@ -166,15 +180,16 @@ public class TimeStamperBuilder
         }
 
         @Override
-        public void setMessageDigest(String algorithm) throws NoSuchAlgorithmException
+        public void setMessageDigest(String algorithm, ASN1ObjectIdentifier digestAlgAsn1) throws NoSuchAlgorithmException
         {
             this.messageDigest = MessageDigest.getInstance(algorithm);
+            this.digestAlgAsn1 = digestAlgAsn1;
         }
 
         @Override
-        public MessageDigest getMessageDigest()
+        public Object[] getMessageDigest()
         {
-            return messageDigest;
+            return new Object[] { messageDigest, digestAlgAsn1 };
         }
 
         @Override
@@ -189,7 +204,7 @@ public class TimeStamperBuilder
             messageDigest.update(data);
             byte[] digest = messageDigest.digest();
 
-            TimeStampRequest request = tsqGenerator.generate(TSPAlgorithms.SHA1, digest);
+            TimeStampRequest request = tsqGenerator.generate(digestAlgAsn1, digest);
             byte[] requestBytes = request.getEncoded();
 
             HttpURLConnection con = (HttpURLConnection) tsaUrl.openConnection(proxy);

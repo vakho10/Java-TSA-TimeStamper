@@ -2,9 +2,9 @@ package ge.vakho.timestamper;
 
 import java.net.Proxy;
 import java.net.URL;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.tsp.TimeStampResponse;
 
 public interface TimeStamper
@@ -25,9 +25,9 @@ public interface TimeStamper
 
     String getRequestMethod();
     
-    void setMessageDigest(String algorithm) throws NoSuchAlgorithmException;
+    void setMessageDigest(String algorithm, ASN1ObjectIdentifier digestAlgAsn1) throws NoSuchAlgorithmException;
     
-    MessageDigest getMessageDigest();
+    Object[] getMessageDigest();
 
     TimeStampResponse timestamp() throws Exception;
 
