@@ -14,7 +14,7 @@ public class Main
     {
         // Construct TimeStamper object using builder class...
         TimeStamper timeStamper = new TimeStamperBuilder()
-                .setProxy("192.168.253.30", 8080)
+                //.setProxy("192.168.253.30", 8080)
                 .setRequestMethod("GET")
                 .setDigestAlgorithm("SHA-1", TSPAlgorithms.SHA1)
                 .setTsaUrl("http://timestamp.comodoca.com/authenticode")
