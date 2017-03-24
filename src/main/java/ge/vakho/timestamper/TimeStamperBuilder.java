@@ -20,9 +20,8 @@ import org.bouncycastle.tsp.TimeStampRequestGenerator;
 import org.bouncycastle.tsp.TimeStampResponse;
 
 /**
- * This is the class that constructs concrete TimeStamper object (which is used for timestamping) and returns it.
- * 
  * @author v.laluashvili
+ *
  */
 public class TimeStamperBuilder
 {
@@ -34,7 +33,9 @@ public class TimeStamperBuilder
     private ASN1ObjectIdentifier digestAlgAsn1;
 
     /**
-     * Set TSA's URL.
+     * @param tsaUrl
+     * @return
+     * @throws MalformedURLException
      */
     public TimeStamperBuilder setTsaUrl(String tsaUrl) throws MalformedURLException
     {
@@ -43,7 +44,11 @@ public class TimeStamperBuilder
     }
 
     /**
-     * Sets proxy (optional).
+     * @param address
+     * @param port
+     * @param username
+     * @param password
+     * @return
      */
     public TimeStamperBuilder setProxy(String address, int port, String username, String password)
     {
@@ -64,7 +69,9 @@ public class TimeStamperBuilder
     }
 
     /**
-     * Sets proxy (optional).
+     * @param address
+     * @param port
+     * @return
      */
     public TimeStamperBuilder setProxy(String address, int port)
     {
@@ -72,7 +79,8 @@ public class TimeStamperBuilder
     }
 
     /**
-     * Sets data that will be timestamped.
+     * @param data
+     * @return
      */
     public TimeStamperBuilder setData(byte[] data)
     {
@@ -81,9 +89,9 @@ public class TimeStamperBuilder
     }
 
     /**
-     * Sets message digest algorithm with its ASN1ObjectIdentifier (OID).
-     * 
-     * @param algorithmOid
+     * @param algorithm
+     * @param digestAlgAsn1
+     * @return
      */
     public TimeStamperBuilder setDigestAlgorithm(String algorithm, ASN1ObjectIdentifier digestAlgAsn1)
     {
@@ -93,7 +101,8 @@ public class TimeStamperBuilder
     }
 
     /**
-     * Sets HTTP request method.
+     * @param requestMethod
+     * @return
      */
     public TimeStamperBuilder setRequestMethod(String requestMethod)
     {
@@ -102,8 +111,7 @@ public class TimeStamperBuilder
     }
 
     /**
-     * Builds and returns new instance of TimeStamper object.
-     * 
+     * @return
      * @throws NoSuchAlgorithmException
      */
     public TimeStamper build() throws NoSuchAlgorithmException
@@ -118,9 +126,8 @@ public class TimeStamperBuilder
     }
 
     /**
-     * TimeStamperBuilder class constructs and returns this private inner class.
-     * 
      * @author v.laluashvili
+     *
      */
     private static class ConcreteTimeStamper implements TimeStamper
     {
