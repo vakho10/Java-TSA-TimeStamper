@@ -108,7 +108,7 @@ public class TimeStamperBuilder
      */
     public TimeStamper build() throws NoSuchAlgorithmException
     {
-        TimeStamper stamper = new TimeStamperBuilder().new ConcreteTimeStamper();
+        TimeStamper stamper = new ConcreteTimeStamper();
         stamper.setTsaUrl(tsaUrl);
         stamper.setProxy(proxy);
         stamper.setRequestMethod(requestMethod);
@@ -122,7 +122,7 @@ public class TimeStamperBuilder
      * 
      * @author v.laluashvili
      */
-    private class ConcreteTimeStamper implements TimeStamper
+    private static class ConcreteTimeStamper implements TimeStamper
     {
         private URL tsaUrl;
         private Proxy proxy;
@@ -198,7 +198,7 @@ public class TimeStamperBuilder
             // Generate timestamp request object
             TimeStampRequestGenerator tsqGenerator = new TimeStampRequestGenerator();
             OutputStream out = null;
-            tsqGenerator.setCertReq(false);
+            tsqGenerator.setCertReq(true);
 
             // Calculate data digest
             messageDigest.update(data);

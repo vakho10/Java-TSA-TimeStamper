@@ -5,6 +5,11 @@
 	<artifactId>Java_TSA_TimeStamper</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+	<scm>
+		<connection>scm:git:https://github.com/vakho10/Java-TSA-TimeStamper.git</connection>
+		<url>https://github.com/vakho10/Java-TSA-TimeStamper</url>
+	</scm>
+
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
