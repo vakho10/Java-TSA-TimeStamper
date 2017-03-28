@@ -13,10 +13,10 @@ public class Main
     public static void main(String[] args) throws Exception
     {
         // Construct TimeStamper object using builder class...
-        TimeStamper timeStamper = new TimeStamperBuilder()
+        TimeStamper timeStamper = new TimeStamper.Builder()
                 //.setProxy("192.168.253.30", 8080)
-                .setRequestMethod("GET")
-                .setDigestAlgorithm("SHA-1", TSPAlgorithms.SHA1)
+                .setRequestMethod("GET")      
+                .setMessageDigest("SHA-1", TSPAlgorithms.SHA1)
                 .setTsaUrl("http://timestamp.comodoca.com/authenticode")
                 .setData("Some!".getBytes())
                 .build();
