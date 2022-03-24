@@ -14,11 +14,10 @@ public class Main
     {
         // Construct TimeStamper object using builder class...
         TimeStamper timeStamper = new TimeStamper.Builder()
-                //.setProxy("192.168.253.30", 8080)
-                .setRequestMethod("GET")      
-                .setMessageDigest("SHA-1", TSPAlgorithms.SHA1)
-                .setTsaUrl("http://timestamp.comodoca.com/authenticode")
-                .setData("Some!".getBytes())
+                .requestMethod("GET")
+                .messageDigest("SHA-256", TSPAlgorithms.SHA256)
+                .tsaUrl("http://some-tsa-url.com")
+                .data("Some!".getBytes())
                 .build();
 
         // Call timestamp method to get TimeStampResponse.
